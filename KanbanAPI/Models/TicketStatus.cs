@@ -7,6 +7,7 @@ namespace KanbanAPI.Models
     public class TicketStatus
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte Id { get; set; }
 
         [Required]

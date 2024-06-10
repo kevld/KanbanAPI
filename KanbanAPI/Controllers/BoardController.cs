@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KanbanAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[Controller]")]
     public class BoardController : ControllerBase
     {
         private readonly KbContext _context;
@@ -21,12 +21,12 @@ namespace KanbanAPI.Controllers
             return Ok(await _context.Boards.ToListAsync());
         }
 
-        [HttpGet("/{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
             var board = await _context.Boards.FirstOrDefaultAsync(x => x.Id == id);
 
-            if(board ==null)
+            if (board == null)
                 return NotFound();
 
             return Ok(board);
@@ -44,7 +44,7 @@ namespace KanbanAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return  StatusCode(500, e);
+                return StatusCode(500, e);
             }
         }
 
@@ -60,7 +60,7 @@ namespace KanbanAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return  StatusCode(500, e);
+                return StatusCode(500, e);
             }
         }
 
@@ -71,7 +71,7 @@ namespace KanbanAPI.Controllers
             {
                 var board = _context.Boards.Find(id);
 
-                if(board == null)
+                if (board == null)
                     return NotFound();
 
                 _context.Boards.Remove(board);
@@ -82,7 +82,7 @@ namespace KanbanAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return  StatusCode(500, e);
+                return StatusCode(500, e);
             }
         }
     }

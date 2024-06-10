@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KanbanAPI.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
-[Route("[Controller]")]
 public class StatusController : ControllerBase
 {
     private readonly KbContext _context;
@@ -21,8 +21,8 @@ public class StatusController : ControllerBase
         return Ok(await _context.Status.ToListAsync());
     }
 
-    [HttpGet("/{id}")]
-    public async Task<IActionResult> Get(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
     {
         var board = await _context.Status.FirstOrDefaultAsync(x => x.Id == id);
 
