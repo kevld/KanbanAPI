@@ -1,4 +1,5 @@
 using KanbanAPI.Models;
+using KanbanAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,12 @@ public class StatusController : ControllerBase
     public StatusController(KbContext context)
     {
         _context = context;
+    }
+
+    [HttpGet("Board/{id}")]
+    public async Task<IActionResult> GetStatusByBoardId(int id) 
+    {
+        return Ok(await _context.Status.Where(x => x.BoardId == id).ToListAsync());
     }
 
     [HttpGet("")]
@@ -33,14 +40,20 @@ public class StatusController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(TicketStatus status)
+    public async Task<IActionResult> Add(CreateStatusDTO status)
     {
         try
         {
-            await _context.Status.AddAsync(status);
+            TicketStatus ticketStatus = new TicketStatus()
+            {
+                BoardId = status.BoardId,
+                Name = status.Name
+            };
+
+            await _context.Status.AddAsync(ticketStatus);
             await _context.SaveChangesAsync();
 
-            return StatusCode(201, status);
+            return StatusCode(201, ticketStatus);
         }
         catch (System.Exception e)
         {

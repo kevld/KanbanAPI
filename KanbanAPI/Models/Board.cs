@@ -21,6 +21,9 @@ namespace KanbanAPI.Models
 
         [InverseProperty("Board")]
         public ICollection<Ticket> Tickets { get; } = new List<Ticket>();
+
+        [InverseProperty("Board")]
+        public ICollection<TicketStatus> Statuses { get; } = new List<TicketStatus>();
     }
 
     public class BoardEntityTypeConfiguration : IEntityTypeConfiguration<Board>
